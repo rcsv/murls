@@ -20,7 +20,7 @@ RUN apt-get install -y php8.2-fpm php8.2-mysql
 RUN apt-get install -y mariadb-server
 
 # Copy the default nginx config
-COPY nginx.conf /etc/nginx/sites-available/default
+COPY docker/nginx.conf /etc/nginx/sites-available/default
 
 # Expose web and db port
 EXPOSE 80 443 3306
