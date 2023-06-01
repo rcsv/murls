@@ -1,12 +1,11 @@
 
-# Dockerfile for Render.com
-# creation date: 2023-05-31
+# Dockerfile for render.com
 
-FROM richarvey/nginx-php-fpm:latest
+FROM richarvey/nginx-php-fpm:1.7.2
 
-ENV WEBROOT=/var/www/html/public
+COPY . .
 
-# Set the working directory in the container
-WORKDIR /var/www/html
+ENV WEBROOT /var/www/html/public
 
-EXPOSE 80 443 3306
+CMD ["/start.sh"]
+

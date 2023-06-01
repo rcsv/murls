@@ -1,5 +1,5 @@
-vendor/
-.dockerignore
-.gitignore
-.git
-.vscode
+/node_modules
+/vendor
+.env
+.phpunit.result.cache
+
