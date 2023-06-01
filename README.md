@@ -31,4 +31,4 @@ to get started with this project.
 ### Want to Contribute?
 ---
 
-Check out `CONTRIBUTING.md` for more information in `docs` directory.
+Check out [`CONTRIBUTING.md`](docs/CONTRIBUTING.md) for more information in [`docs`](docs/) directory.
