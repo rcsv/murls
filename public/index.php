@@ -4,6 +4,7 @@ declare(strict_types=1);
 use Slim\Factory\AppFactory;
 use DI\ContainerBuilder;
 use Rcsvpg\Murls\Application\ResponseEmitter\ResponseEmitter;
+use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -35,6 +36,10 @@ $middleware($app);
 // Load Routing methods
 $routes = require_once __DIR__ . '/../config/04-routing.php';
 $routes($app);
+
+// extract logger instance to global variable
+global $logger;
+$logger = $container->get(LoggerInterface::class);
 
 // Run App
 $app->run();

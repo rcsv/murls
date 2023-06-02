@@ -8,8 +8,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 abstract class AbstractController
 {
+    protected $logger;
+
     public function __construct()
     {
+        global $logger;
+        $this->logger = $logger;
     }
 
     // have to implement this method in child class

@@ -9,6 +9,14 @@ use Rcsvpg\Murls\Forwarder;
 
 class BaseController extends AbstractController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->logger->debug(__CLASS__ . ':' . __FUNCTION__);
+        $this->logger->info(__CLASS__ . ':' . __FUNCTION__);
+    }
+
+
     public function index(Request $request, Response $response, array $args) : Response
     {
         $response->getBody()->write(__CLASS__ . ':' . __FUNCTION__);
@@ -26,17 +34,17 @@ class BaseController extends AbstractController
         phpinfo();
     }
 
+    /**
+     * URL Shortener
+     */
     public function redirect(Request $request, Response $response, array $args) : Response
     {
         $fowarder = new Forwarder();
-        if(Forwarder::forwarding($args['short_url'])) {
-            return $response->redurect($url, 302);
-        } else {
+        $url = $fowarder->getURL($args['short_url']);
+
+        if(!Forwarder::forwarding($url)) {
             $response->getBody()->write("Invalid short code");
             return $response->withStatus(400);
         }
-
-        // TODO: implement redirect using DI\Container
-
     }
 }
