@@ -18,7 +18,7 @@ return function (ContainerBuilder $containerBuilder) {
     // Load Logger settings
     $containerBuilder->addDefinitions([
         LoggerInterface::class => function (ContainerInterface $c) {
-            $settings = $c->get(SettingsIntetface::class);
+            $settings = $c->get(SettingsInterface::class);
 
             $loggerSettings = $settings->get('logger');
             $logger = new Logger($loggerSettings['name']);

@@ -36,7 +36,7 @@ return function (ContainerBuilder $containerBuilder) {
                     'username' =>  $_ENV['DB_USER'],
                     'password' =>  $_ENV['DB_PASS'],
                     'charset' =>   $_ENV['DB_CHAR'],
-                    'collation' => $_ENV['DB_COLLATIOB'],
+                    'collation' => $_ENV['DB_COLLATION'],
                     'flags' => [
                         PDO::ATTR_PERSISTENT => false,
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
