@@ -25,6 +25,17 @@ to get started with this project.
  -->
  MyURLs is a URL Shortener Service designed for intranet-use.
 
+## Features
+The features that are planned at this time are as follows. Exclude 2, the rest are not implemented.
+
+1. Shorten URL
+2. Redirect to original URL
+3. Custom URL
+4. QR Code
+5. Statistics
+6. API
+
+
 ### License
 ---
 
