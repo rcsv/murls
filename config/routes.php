@@ -78,3 +78,4 @@ $app->add(function (Request $request, RequestHandlerInterface $handler) {
         return $response->withStatus(404);
     }
 });
+
