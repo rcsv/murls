@@ -31,7 +31,7 @@ class Forwarder
         $dotenv->load();
 
         // set dsn strings
-        $dsn = $_ENV['DB_SCHEMA'] . 
+        $dsn = $_ENV['DB_DRIVER'] . 
             ':host='   . $_ENV['DB_HOST'] .
             ';dbname=' . $_ENV['DB_NAME'] .
             ';charset='. $_ENV['DB_CHAR'] ;
