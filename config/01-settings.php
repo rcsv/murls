@@ -7,8 +7,6 @@ use DI\ContainerBuilder;
 
 use Dotenv\Dotenv;
 
-
-
 return function (ContainerBuilder $containerBuilder) {
 
     // Load environment variables
@@ -51,6 +49,11 @@ return function (ContainerBuilder $containerBuilder) {
                     'debug' => $_ENV['DEBUG'],
                     'auto_reload' => true,
                 ],
+                'blade' => [
+                    'view_path' => __DIR__ . '/../templates',
+                    'cache_path' => __DIR__ . '/../var/cache/blade',
+                ],
+
             ]);
         }
     ]);

@@ -2,10 +2,16 @@
 declare(strict_types=1);
 
 use Rcsvpg\Murls\Application\Middleware\SessionMiddleware;
+use Rcsvpg\Murls\Application\Settings\SettingsInterface;
+
 use Slim\App;
 use Slim\Views\TwigMiddleware;
 
 return function (App $app) {
+
+    // get container
+    // SettingsInterface::class
+    $settings = $app->getContainer()->get(SettingsInterface::class);
 
     // Session Start
     $app->add(SessionMiddleware::class);
@@ -15,9 +21,9 @@ return function (App $app) {
 
     // Error Handling Middleware
     $errorMiddleware = $app->addErrorMiddleware(
-        (bool)$_ENV['DEBUG'], // displayErrorDetails
-        true, // logErrors - always true
-        (bool)$_ENV['DEBUG']  // logErrorDetails
+        (bool)$settings->get('displayErrorDetails'),    // displayErrorDetails
+        (bool)$settings->get('logError'),               // logError - always true
+        (bool)$settings->get('logErrorDetails')         // logErrorDetails
     );
 
     // Twig Middleware

@@ -11,6 +11,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Processor\UidProcessor;
 
 use Slim\Views\Twig;
+use Jenssegers\Blade\Blade;
 
 return function (ContainerBuilder $containerBuilder) {
 
@@ -62,6 +63,15 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $pdo;
 
-        }
+        },
+        // Blade
+        Blade::class => function(ContainerInterface $c) {
+            $settings = $c->get(SettingsInterface::class);
+            $bladeSettings = $settings->get('blade');
+
+        return new Blade(
+            $bladeSettings['view_path'],
+            $bladeSettings['cache_path']);
+        },
     ]);
 };
