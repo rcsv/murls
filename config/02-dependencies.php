@@ -12,7 +12,6 @@ use Monolog\Processor\UidProcessor;
 
 use Slim\Views\Twig;
 
-
 return function (ContainerBuilder $containerBuilder) {
 
     // Load Logger settings
@@ -37,6 +36,32 @@ return function (ContainerBuilder $containerBuilder) {
                 'debug' => $_ENV['DEBUG'],
                 'auto_reload' => true,
             ]);
+        },
+        \PDO::class => function (ContainerInterface $c) {
+            $settings = $c->get(SettingsInterface::class);
+
+            $dbSettings = $settings->get('db');
+
+            // want to make string:
+            // mysql:host=localhost;dbname=testdb;charset=utf8mb4
+            $dsn = $dbSettings['driver'] . 
+                ':host=' . $dbSettings['host'] . 
+                ';dbname=' . $dbSettings['database'] . 
+                ';charset=' . $dbSettings['charset'];
+            
+            // create PDO instance with settings
+            try {
+                $pdo = new \PDO($dsn, 
+                    $dbSettings['username'], 
+                    $dbSettings['password'], 
+                    $dbSettings['flags']);
+
+            } catch (\PDOException $e) {
+                echo $e->getMessage();
+            }
+
+            return $pdo;
+
         }
     ]);
 };

@@ -21,7 +21,7 @@ return function (App $app) {
     });
 
     // 2. URL Shortener mode
-    $app->any('/{short_url:[a-zA-Z0-9]{1,11}}', [BaseController::class, 'redirect'])->setName('redirect');
+    $app->any('/{short:[a-zA-Z0-9-_]{1,32}}', [BaseController::class, 'redirect'])->setName('redirect');
 
     // 3. service management mode
     $app->group('/user', function(Group $group) {

@@ -6,12 +6,13 @@ namespace Rcsvpg\Murls\Application\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Rcsvpg\Murls\Forwarder;
+use Psr\Container\ContainerInterface;
 
 class BaseController extends AbstractController
 {
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
-        parent::__construct();
+        parent::__construct($container);
         $this->logger->debug(__CLASS__ . ':' . __FUNCTION__);
         $this->logger->info(__CLASS__ . ':' . __FUNCTION__);
     }
@@ -25,6 +26,7 @@ class BaseController extends AbstractController
 
     public function stub(Request $request, Response $response, array $args) : Response
     {
+        $this->logger->debug(__CLASS__ . ':' . __FUNCTION__);
         $response->getBody()->write(__CLASS__ . ':' . __FUNCTION__);
         return $response;
     } 
@@ -39,12 +41,37 @@ class BaseController extends AbstractController
      */
     public function redirect(Request $request, Response $response, array $args) : Response
     {
-        $fowarder = new Forwarder();
-        $url = $fowarder->getURL($args['short_url']);
+        /**
+         * @var Forwarder
+         */
+        // ltrim slash
+        $short = ltrim($args['short'], '/');
+        // getURL
+        $stmt = $this->pdo->prepare('SELECT id, longurl FROM urls WHERE title = :short');
+        $stmt->execute(['short' => $short]);
+        $url = $stmt->fetch();
 
-        if(!Forwarder::forwarding($url)) {
-            $response->getBody()->write("Invalid short code");
-            return $response->withStatus(400);
+        // if exists insert referes values into stat table and redirect
+        if ($url) {
+            $stmt = $this->pdo->prepare('INSERT INTO stats (url_id, ip, user_agent, referer) VALUES (:url_id, :ip, :user_agent, :referer)');
+            $stmt->execute([
+                'url_id' => $url['id'], 
+                'ip' => $_SERVER['REMOTE_ADDR'],
+                'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+                'referer' => $_SERVER['HTTP_REFERER'] ?? '',
+            ]);
+        
+            // redirect $url with 302
+            return $response
+                ->withHeader('Location', $url['longurl'])
+                ->withStatus(302);
         }
+
+        // if not exists display 418
+        $response->getBody()->write('418 I\'m a teapot');
+        return $response
+            ->withHeader('Content-Type', 'text/html')
+            ->withStatus(418);
+
     }
 }
