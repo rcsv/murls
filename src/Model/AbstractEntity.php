@@ -81,26 +81,41 @@ abstract class AbstractEntity implements EntityInterface
         return $this->data();
     }
 
+    // getTable
+    public function getTableName(): string
+    {
+        if ( $this->table ) {
+            return $this->table;
+        }
+        throw new MurlsNotSetException('Table name is not set.');
+    }
+
+    // getId
     public function getId(): ?int
     {
-        return $this->id;
+        if( $this->id ) {
+            return $this->id;
+        }
+        throw new MurlsNotSetException('Primary key is not set.');
     }
 
     // getUniqueValue
     public function getUnique(): string
     {
         if ( $this->unique ) {
-            return $this->{$this->unique};
+            return $this->unique;
         }
-        throw new MurlsNotSetException();
+        throw new MurlsNotSetException('Unique field is not set.');
     }
 
     // getSeondary
     public function getSecondary(): string
     {
         if ( $this->title ) {
-            return $this->{$this->title};
+            return $this->title;
         }
-        throw new MurlsNotSetException();
+        throw new MurlsNotSetException('Secondary field is not set.');
     }
+
+
 }
