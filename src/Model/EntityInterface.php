@@ -9,6 +9,11 @@ namespace Rcsvpg\Murls\Model;
 interface EntityInterface extends \JsonSerializable
 {
     /**
+     * getTableName
+     */
+    public function getTableName(): string;
+
+    /**
      * getId
      * get Primary Key
      * @return int|null
@@ -38,4 +43,6 @@ interface EntityInterface extends \JsonSerializable
      * @return void
      */
     public function setSeverals(array $data): void;
+
+    // TODO: make phrase for sql query
 }
