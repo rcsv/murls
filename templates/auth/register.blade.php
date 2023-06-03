@@ -11,7 +11,7 @@
                 without completing it.</p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+            <form id="user-registration" class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
                 <div class="form-floating mb-3">
                     <!-- email -->
                     <input name="email" value="{{ $email }}" type="email" class="form-control" id="floatingInput"
@@ -36,17 +36,6 @@
                         </label>
                     </div>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-                    <script>
-                    document.querySelector('form').addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        if (document.querySelector('input[name="password"]').value !== document.querySelector(
-                                'input[name="password_confirmation"]').value) {
-                            alert('Password does not match');
-                        } else {
-                            this.submit();
-                        }
-                    });
-                    </script>
                     <hr class="my-4">
                     <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
                 </div>
@@ -55,4 +44,19 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('user-registration').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var passA = document.getElementById('floatingPassword-1').value;
+        var passB = document.getElementById('floatingPassword-2').value;
+        if ( passA !== passB ) {
+            alert('Password does not match');
+        } else {
+            this.submit();
+        }
+    });
+</script>
 @endsection

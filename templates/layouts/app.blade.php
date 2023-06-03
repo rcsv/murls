@@ -21,17 +21,17 @@
 
 </head>
 <body>
-    <header>
+    @include ('layouts.header')
 
-    </header>
     <main>
         @yield('content')
     </main>
-    <footer>
-        
-    </footer>
+    
+    @include ('layouts.footer')
+    
     <!-- javascript -->
     @include('layouts.javascript')
+    @yield('scripts')
 
 </body>
 </html>
