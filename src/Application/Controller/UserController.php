@@ -11,6 +11,14 @@ use Rcsvpg\Murls\Model\User\UserRepository;
 
 class UserController extends AbstractController
 {
+    
+    private function init()
+    {
+        if( !isset($this->repository) ) {
+            $this->repository = new UserRepository($this->container);
+        }
+    }
+
     public function index(Request $request, Response $response, array $args): Response
     {
         return $this->view($response, 'auth.register', ['name' => 'John Doe']);
@@ -19,12 +27,34 @@ class UserController extends AbstractController
     public function signup(Request $request, Response $response, array $args): Response
     {
         // make name, email, password available in view
-        return $this->view($response, 'auth.register', ['name' => '', 'email' => '', 'password' => '', 'errors' => [] ]);
+        return $this->view($response, 'auth.register', ['email' => '', 'password' => '', 'errors' => [] ]);
     }
 
     public function signupPost(Request $request, Response $response, array $args): Response
     {
-        $this->container->get('logger')->debug(__CLASS__ . ':' . __FUNCTION__);
+        $this->logger->debug(__CLASS__ . ':' . __FUNCTION__);
+        $this->logger->debug(print_r($request->getParsedBody(), true));
+
+        // prepare data
+        $this->init();
+
+        // return error when $repository->findByTitle($request->getParseBody()['email']);
+        $email = $request->getParsedBody()['email'];
+        $password = $request->getParsedBody()['password'];
+        $password_confirmation = $request->getParsedBody()['password_confirmation'];
+
+        $errors = [];
+        if( $password !== $password_confirmation ) {
+            $errors[] = 'Password does not match';
+        }
+
+        if( count($errors) > 0 ) {
+            return $this->view($response, 'auth.register', ['email' => $email, 'password' => $password, 'errors' => $errors ]);
+        }
+
+        // create user
+        $this->repository->create($email, $password);
+
         
         return $this->view($response, 'auth.register', ['name' => 'John Doe']);
     }
