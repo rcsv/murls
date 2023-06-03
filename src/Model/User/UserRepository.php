@@ -47,7 +47,7 @@ class UserRepository implements RepositoryInterface
         return new UserEntity($user);
     }
 
-    public function insert(EntityInterface $data) : int {
+    public function create(EntityInterface $data) : int {
 
         // TODO:
         // --------------------------------

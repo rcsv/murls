@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Rcsvpg\Murls\Model;
 
@@ -10,7 +11,7 @@ interface RepositoryInterface
 
     function findByTitle(string $title) : ?EntityInterface;
 
-    function insert(EntityInterface $data) : int;
+    function create(EntityInterface $data) : int;
 
     function update(EntityInterface $data) : bool;
 
