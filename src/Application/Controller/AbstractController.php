@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Jenssegers\Blade\Blade;
+use Rcsvpg\Murls\Model\RepositoryInterface as Repository;
 
 abstract class AbstractController
 {
@@ -15,6 +16,7 @@ abstract class AbstractController
     protected $container;
     protected $pdo;
     protected $blade;
+    protected Repository $repository;
 
     public function __construct(ContainerInterface $container)
     {

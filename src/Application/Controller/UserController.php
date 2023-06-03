@@ -5,6 +5,9 @@ namespace Rcsvpg\Murls\Application\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Container\ContainerInterface;
+
+use Rcsvpg\Murls\Model\User\UserRepository;
 
 class UserController extends AbstractController
 {
@@ -15,12 +18,14 @@ class UserController extends AbstractController
 
     public function signup(Request $request, Response $response, array $args): Response
     {
-        return $this->view($response, 'auth.register', ['name' => 'John Doe']);
+        // make name, email, password available in view
+        return $this->view($response, 'auth.register', ['name' => '', 'email' => '', 'password' => '', 'errors' => [] ]);
     }
 
     public function signupPost(Request $request, Response $response, array $args): Response
     {
-        // store the newly registered user.
+        $this->container->get('logger')->debug(__CLASS__ . ':' . __FUNCTION__);
+        
         return $this->view($response, 'auth.register', ['name' => 'John Doe']);
     }
 
