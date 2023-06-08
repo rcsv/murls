@@ -25,9 +25,6 @@ abstract class AbstractEntity implements EntityInterface
     // set secondary unique field
     protected string $title; // default is email
 
-    // ContainerInterface
-    protected ContainerInterface $container;
-
     // array
     protected array $data;
 
@@ -117,5 +114,45 @@ abstract class AbstractEntity implements EntityInterface
         throw new MurlsNotSetException('Secondary field is not set.');
     }
 
+    // getColumns
+    public function getColumns(): array
+    {
+        return $this->fillable;
+    }
 
+    // getValues
+    public function getValues(): array
+    {
+        $values = [];
+        foreach ($this->fillable as $column) {
+            $values[] = $this->data[$column];
+        }
+        return $values;
+    }
+
+    // getBindValues
+    public function getBindValues(): array
+    {
+        $values = [];
+        foreach ($this->fillable as $column) {
+            $values[':' . $column] = $this->data[$column];
+        }
+        return $values;
+    }
+
+    // getSetValues
+    public function getSetValues(): array
+    {
+        $values = [];
+        foreach ($this->fillable as $column) {
+
+            // when $data[$column] is null, skip
+            if ( is_null($this->data[$column]) ) {
+                continue;
+            }
+
+            $values[] = $column . ' = :' . $column;
+        }
+        return $values;
+    }
 }
