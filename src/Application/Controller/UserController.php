@@ -87,6 +87,7 @@ class UserController extends AbstractController
             $this->repository->save($user);
 
             // redirect to login page
+            $this->logger->info('User registered: ' . $user->email);
             return $response->withHeader('Location', '/login');
         }
 
@@ -107,7 +108,7 @@ class UserController extends AbstractController
             $errors['email'] = 'Email is required';
         } else if ( !filter_var($data['email'], FILTER_VALIDATE_EMAIL) ) {
             $errors['email'] = 'Email is invalid';
-        } else if ( $this->repository->exists($data['email']) ) {
+        } else if ( $this->repository->exists('email', $data['email']) ) {
             $errors['email'] = 'Email is already taken';
         }
 
