@@ -61,7 +61,7 @@ abstract class AbstractEntity implements EntityInterface
         }
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         // return array without hidden data
         $data = [];
@@ -70,7 +70,7 @@ abstract class AbstractEntity implements EntityInterface
                 $data[$key] = $value;
             }
         }
-        return $data;
+        return json_encode($data);
     }
 
     public function __toString()

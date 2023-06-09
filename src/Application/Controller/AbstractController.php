@@ -16,6 +16,7 @@ abstract class AbstractController
     protected $container;
     protected $pdo;
     protected $blade;
+    
     protected Repository $repository;
 
     public function __construct(ContainerInterface $container)
@@ -24,6 +25,7 @@ abstract class AbstractController
         $this->logger = $container->get(LoggerInterface::class);
         $this->pdo = $container->get(\PDO::class);
         $this->blade = $container->get(Blade::class);
+        
     }
 
     protected function view(Response $response, string $template, array $data = []) : Response

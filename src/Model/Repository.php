@@ -130,10 +130,10 @@ class Repository implements RepositoryInterface
      * @param EntityInterface $entity
      * @return bool
      */
-    public function delete(EntityInterface $entity): bool
+    public function delete(int $id): bool
     {
         $stmt = $this->pdo->prepare("DELETE FROM {$this->table_name} WHERE id = :id");
-        $stmt->bindValue(':id', $entity->getId(), \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id(), \PDO::PARAM_INT);
         return $stmt->execute();
     }
 

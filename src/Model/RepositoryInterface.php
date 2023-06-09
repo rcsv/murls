@@ -58,7 +58,7 @@ interface RepositoryInterface
      * @param  EntityInterface $entity
      * @return bool
      */
-    public function update(EntityInterface $entity): bool;
+    public function update(EntityInterface $entity): int;
 
     /**
      * delete

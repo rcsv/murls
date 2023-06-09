@@ -16,7 +16,7 @@ use Rcsvpg\Murls\Model\AbstractEntity;
 class UserEntity extends AbstractEntity
 {
     // user entity use a users table
-    protected $table = 'users';
+    protected string $table = 'users';
 
     protected $fillable = [
         //'name',
