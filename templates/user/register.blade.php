@@ -5,10 +5,23 @@
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5 py-5">
         <div class="col-lg-7 text-center text-lg-start">
-            <h1 class="display-4 fw-bold lh-1 mb-3">Vertically centered hero sign-up form</h1>
-            <p class="col-lg-10 fs-4">Below is an example form built entirely with Bootstrap’s form controls. Each
-                required form group has a validation state that can be triggered by attempting to submit the form
-                without completing it.</p>
+            <h1 class="display-4 fw-bold lh-1 mb-3">Sign up</h1>
+            <p class="col-lg-10 fs-4">
+                <!-- ここは英語で
+                    「あなたがよく使うウェブサイト、またはあなたがみんなに紹介したいウェブサイトを
+                    　より使いやすくするために。
+                    　便利な短縮コードサービスをどうぞ」
+                    　と記載する。
+                -->
+                Introducing an Effortless Shortcut Code Service: <br>
+                Enhance your experience on the websites you frequently visit, or 
+                discover a new platform that you can't wait to share with others.
+                Sign up now to enjoy a convenient shortcut code service that makes your
+                online interactions smoother than ever before.
+                Don't miss out on this opportunity to simplify your web browsing and
+                amplify your productivity. Join us today!
+                
+            </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
             <form id="user-registration" class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
@@ -29,16 +42,10 @@
                     <input name="password_confirmation" type="password" class="form-control" id="floatingPassword-2"
                         placeholder="SamePhrase">
                     <label for="floatingPassword-2">Confirm</label>
-
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" value="remember-me"> Remember me
-                        </label>
-                    </div>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-                    <hr class="my-4">
-                    <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
                 </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                <hr class="my-4">
+                <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
             </form>
         </div>
     </div>
