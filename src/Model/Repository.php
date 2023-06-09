@@ -73,7 +73,7 @@ class Repository implements RepositoryInterface
     {
         $entity = clone $this->entity;
         $entity->setSeverals($data);
-        $entity->setId(null);
+        $entity->Id = null;
         return $entity;
     }
 
@@ -87,7 +87,7 @@ class Repository implements RepositoryInterface
     public function save(EntityInterface $entity): int
     {
         $id = $entity->getId();
-        if (empty($id)) {
+        if (is_null($id)) {
             return $this->insert($entity);
         } else {
             return $this->update($entity);
@@ -103,8 +103,18 @@ class Repository implements RepositoryInterface
      */
     public function insert(EntityInterface $entity): int
     {
-        $stmt = $this->pdo->prepare("INSERT INTO {$this->table_name} ({$entity->getColumns()}) VALUES ({$entity->getValues()})");
-        $stmt->execute($entity->getBindValues());
+        // id is auto increment. so set null
+        // $entity->id = null;
+        // insert into users (id, email, password, created_at, updated_at) values (null, :email, :password, :created_at, :updated_at
+        $this->logger->debug("insert into {$this->table_name} ({$entity->getColumns()}) values ({$entity->getValues()})");
+
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO {$this->table_name}" .
+            " ({$entity->getColumns()})" .
+            " VALUES ({$entity->getValues()})");
+        
+        // このタイミングでbind不要。なぜなら、getValues()でbind済みだから。
+        $stmt->execute();
         return (int)$this->pdo->lastInsertId();
     }
 
@@ -184,24 +194,13 @@ class Repository implements RepositoryInterface
         $entity->setSeverals($stmt->fetch());
         return $entity;
     }
-    /*
 
-    
-
-    // find by id
-    public function findById(int $id): EntityInterface
+    // exists
+    public function exists(string $column, string $value): bool
     {
-        check_implemented();
-
-        $stmt = $this->pdo->prepare("SELECT * FROM {$entity->getTableName()} WHERE id = :id");
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM {$this->table_name} WHERE {$column} = :{$column}");
+        $stmt->bindValue(":{$column}", $value);
         $stmt->execute();
-    
-        // set result into entity
-        $entity->setSeverals($stmt->fetch());
-
+        return (bool)$stmt->fetchColumn();
     }
-    */
-
-
 }

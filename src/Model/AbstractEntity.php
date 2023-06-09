@@ -46,8 +46,8 @@ abstract class AbstractEntity implements EntityInterface
     // __getter
     public function __get($name)
     {
-        // if hidden
-        if ( in_array($name, $this->hidden) ) {
+        // if hidden or $this->data[$name] returns undefined key
+        if ( in_array($name, $this->hidden) || !isset($this->data[$name]) ) {
             return null;
         }
         return $this->data[$name];
@@ -66,7 +66,7 @@ abstract class AbstractEntity implements EntityInterface
         // return array without hidden data
         $data = [];
         foreach ($this->data as $key => $value) {
-            if ( !in_array($key, $this->hidden) ) {
+            if ( !in_array($key, $this->hidden)) {
                 $data[$key] = $value;
             }
         }
@@ -90,10 +90,8 @@ abstract class AbstractEntity implements EntityInterface
     // getId
     public function getId(): ?int
     {
-        if( $this->id ) {
-            return $this->id;
-        }
-        throw new MurlsNotSetException('Primary key is not set.');
+        return $this->id;
+        //throw new MurlsNotSetException('Primary key is not set.');
     }
 
     // getUniqueValue
@@ -115,26 +113,37 @@ abstract class AbstractEntity implements EntityInterface
     }
 
     // getColumns
-    public function getColumns(): array
+    public function getColumns(): string
     {
-        return $this->fillable;
+        // 配列を、カンマ区切りの文字列に変換する
+        return implode(',', $this->fillable);
     }
 
     // getValues
-    public function getValues(): array
+    public function getValues(): string
     {
         $values = [];
         foreach ($this->fillable as $column) {
-            $values[] = $this->data[$column];
+            // if $data[$column] is null, display null
+            // is not null display $data[$column] with single quote
+            if( !isset($this->data[$column]) || $this->data[$column] === null ) {
+                $values[] = 'NULL';
+            } else {
+                $values[] = "'" . $this->data[$column] . "'";
+            }
+
         }
-        return $values;
+        return implode(',', $values);
     }
 
-    // getBindValues
+    // getBindValues : for PDO
     public function getBindValues(): array
     {
         $values = [];
         foreach ($this->fillable as $column) {
+            if ( !isset($this->data[$column]) ) {
+                continue;
+            }
             $values[':' . $column] = $this->data[$column];
         }
         return $values;

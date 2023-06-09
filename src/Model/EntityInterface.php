@@ -44,7 +44,7 @@ interface EntityInterface extends \JsonSerializable
      * 
      * @return array Entityが持つカラム名の配列
      */
-    public function getColumns(): array;
+    public function getColumns(): string;
 
     /**
      * getValues
@@ -57,7 +57,7 @@ interface EntityInterface extends \JsonSerializable
      * 
      * @return array Entityが持つ値の配列
      */
-    public function getValues(): array;
+    public function getValues(): string;
 
     /**
      * getId

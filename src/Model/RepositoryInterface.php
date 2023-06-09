@@ -68,4 +68,9 @@ interface RepositoryInterface
      */
     public function delete(int $id): bool;
 
+    /**
+     * exists
+     * Userの場合はidを受け取り、DBに存在するか確認、boolを返す
+     */
+    public function exists(string $column, string $value): bool;
 }
