@@ -19,15 +19,9 @@ class UserEntity extends AbstractEntity
     protected string $table = 'users';
 
     protected $fillable = [
-        //'name',
         'id',
         'email',
         'password',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-        'verifyurl',
-        'verified',
     ];
 
     protected $hidden = [
