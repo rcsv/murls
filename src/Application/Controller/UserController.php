@@ -123,4 +123,38 @@ class UserController extends AbstractController
         // return errors
         return $errors;
     }
+
+    // login
+    public function login(Request $request, Response $response, array $args) : Response
+    {
+        // make email and password available in view
+        return $this->view($response, 'user.login', ['email' => '', 'password' => '', 'errors' => [] ]);
+    }
+
+    // login post
+    public function loginPost(Request $request, Response $response, array $args) : Response
+    {
+        // get form data
+        $data = $request->getParsedBody();
+
+        // validate form data
+        $errors = $this->validateLogin($data);
+
+        // if there is no error
+        if ( empty($errors) ) {
+            // create user entity
+            $user = $this->repository->findByEmail($data['email']);
+
+            // save user entity
+            $this->repository->save($user);
+
+            // redirect to login page
+            return $response->withHeader('Location', '/login');
+        }
+
+        // if there is error
+        // return to register page with error message
+        return $this->view($response, 'user.login', 
+            ['email' => $data['email'], 'password' => '', 'errors' => $errors ]);
+    }
 }
