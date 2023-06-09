@@ -30,4 +30,12 @@ return function (App $app) {
     // in route :
     // return $this->get('view')->render($response, 'home.twig', $args);
     $app->add(TwigMiddleware::createFromContainer($app));
+
+    // Cache Controling
+    $app->add(function ($request, $handler) {
+        $response = $handler->handle($request);
+        return $response
+            ->withHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=60')
+            ->withHeader('Expires', '0');
+    });
 };
