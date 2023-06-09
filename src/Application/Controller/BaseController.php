@@ -30,7 +30,7 @@ class BaseController extends AbstractController
     public function stub(Request $request, Response $response, array $args) : Response
     {
         $this->logger->debug(__CLASS__ . ':' . __FUNCTION__);
-        return $this->view($response, 'auth.home', ['name' => 'John Doe']);
+        return $this->view($response, 'user.home', ['name' => 'John Doe']);
     } 
 
     public function info(Request $request, Response $response, array $args) : Response
