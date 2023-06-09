@@ -26,11 +26,16 @@ return function (App $app) {
     // 3. service management mode
     $app->group('/user', function(Group $group) {
 
+        // display login form
+        $group->get('/', [UserController::class, 'index'])->setName('index');
+
+        $group->get('/login', [UserController::class, 'login'])->setName('login');
+
         // display registration form
-        $group->get('/register', [UserController::class], 'register')->setName('register');
+        $group->get('/register', [UserController::class, 'register'])->setName('register');
 
         // process registration form
-        $group->post('/register', [UserController::class], 'registerPost')->setName('registerPost');
+        $group->post('/register', [UserController::class, 'registerPost'])->setName('registerPost');
 
     });
 };
