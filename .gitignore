@@ -10,3 +10,6 @@ composer.phar
 
 .vscode/sftp.json
 var/logs/*.log
+
+# ignore archived application files
+docs/_*.php
