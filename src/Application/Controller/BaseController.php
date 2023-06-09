@@ -15,6 +15,9 @@ class BaseController extends AbstractController
         parent::__construct($container);
         $this->logger->debug(__CLASS__ . ':' . __FUNCTION__);
         $this->logger->info(__CLASS__ . ':' . __FUNCTION__);
+
+        // Repository NULL
+        // $this->repository = $container->get(Repository::class);
     }
 
 
